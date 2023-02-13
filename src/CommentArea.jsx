@@ -1,12 +1,13 @@
 import { Component } from "react";
-import AddComment from "./AddComment";
+// import AddComment from "./AddComment";
 
 class CommentArea extends Component {
   state = {
     FullComment: [],
   };
   fetchHandle = async () => {
-    const IdToFetch = this.props.SingleBookId;
+    console.log("id", this.props.AsinTopass);
+    const IdToFetch = this.props.AsinTopass;
     const UrlToFetch = "https://striveschool-api.herokuapp.com/api/comments/" + IdToFetch;
     try {
       const data = await fetch(UrlToFetch, {
@@ -32,21 +33,29 @@ class CommentArea extends Component {
   componentDidMount = () => {
     this.fetchHandle();
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.AsinTopass !== this.props.AsinTopass) {
+      this.fetchHandle();
+    }
+  }
   render() {
-    console.log("redner");
+    console.log("redner CommentArea");
     return (
-      <div>
-        <div className="CommentContainer">
-          {this.state.FullComment.map((person, i) => (
-            <div key={person._id}>
-              <p>Author: {person.author}</p>
-              <p>Comment: {person.comment}</p>
-              <p>Rate: {person.rate}</p>
-            </div>
-          ))}
-        </div>
-        <AddComment />
-      </div>
+      <>
+        {this.state.FullComment.length > 0 ? (
+          <div className="CommentContainer">
+            {this.state.FullComment.map((person, i) => (
+              <div key={person._id}>
+                <p>Author: {person.author}</p>
+                <p>Comment: {person.comment}</p>
+                <p>Rate: {person.rate}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <h6>select a book to read comments</h6>
+        )}
+      </>
     );
   }
 }

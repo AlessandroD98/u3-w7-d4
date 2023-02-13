@@ -2,7 +2,7 @@ import Card from "react-bootstrap/Card";
 import { Col } from "react-bootstrap";
 import { Component } from "react";
 import "./App.css";
-import CommentArea from "./CommentArea";
+// import CommentArea from "./CommentArea";
 
 class SingleBook extends Component {
   state = {
@@ -10,7 +10,7 @@ class SingleBook extends Component {
   };
   render() {
     return (
-      <Col xs={12} md={3} lg={3} className="mb-4 SingleBookCOnatiner">
+      <Col xs={12} md={4} lg={4} className="mb-4 SingleBookCOnatiner">
         <Card style={{ width: "100%", height: "100%" }}>
           <Card.Img variant="top" src={this.props.booktopass.img} />
           <Card.Body>
@@ -18,6 +18,7 @@ class SingleBook extends Component {
             <Card.Text>{this.props.booktopass.price}€</Card.Text>
             <h5
               onClick={(e) => {
+                this.props.setTheAsin(this.props.booktopass.asin);
                 console.log("clicked", e);
                 e.currentTarget.classList.toggle("bg-change");
                 let result = this.state.selected ? false : true;
@@ -26,7 +27,7 @@ class SingleBook extends Component {
             >
               Show Comments
             </h5>
-            {this.state.selected && <CommentArea SingleBookId={this.props.booktopass.asin} />}
+            {/* {this.state.selected && <CommentArea SingleBookId={this.props.booktopass.asin} />} */}
           </Card.Body>
         </Card>
       </Col>
